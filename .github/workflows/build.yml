@@ -24,16 +24,24 @@ jobs:
         gradle-version: "8.7"
         cache-disabled: true
 
+    - name: Create keystore
+      run: keytool -genkey -v -keystore release.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -dname "CN=Test"
+
     - name: Build APK
-      run: gradle assembleDebug
+      run: gradle assembleRelease
+
+    - name: Sign APK
+      run: |
+        jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore release.keystore -storepass 123456 app/build/outputs/apk/release/app-release-unsigned.apk release
+        jarsigner -verify app/build/outputs/apk/release/app-release-unsigned.apk
 
     - name: Copy APK
-      run: cp app/build/outputs/apk/debug/app-debug.apk ./app-debug.apk
+      run: cp app/build/outputs/apk/release/app-release-unsigned.apk ./app-release.apk
 
     - name: Push APK
       run: |
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        git add app-debug.apk
-        git commit -m "APK" || echo "No changes"
+        git add app-release.apk
+        git commit -m "Signed APK" || echo "No changes"
         git push
