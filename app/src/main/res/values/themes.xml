@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.AppCompat.Light" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="Theme.DiscountApp" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#1E1E1E</item>
+    </style>
 </resources>
