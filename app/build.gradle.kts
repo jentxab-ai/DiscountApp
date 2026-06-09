@@ -15,17 +15,7 @@ android {
         versionName = "1.0"
     }
 
-    signingConfigs {
-        debug {
-            storeFile file("debug.keystore")
-        }
-    }
-
     buildTypes {
-        debug {
-            isDebuggable = true
-            signingConfig = signingConfigs.debug
-        }
         release {
             isMinifyEnabled = false
         }
